@@ -1,5 +1,9 @@
 ﻿using System.Windows;
 
+using Google.Apis.Customsearch.v1.Data;
+using System.Windows.Controls;
+using System;
+
 namespace PCfinder2
 {
     /// <summary>
@@ -29,6 +33,7 @@ namespace PCfinder2
             tabControl.Items.Add(theTabItem);
             theTabItem.Focus();
         }
+
         /// <summary>
         /// To add a new tab with longer name.
         /// </summary>
@@ -42,15 +47,49 @@ namespace PCfinder2
             theTabItem.Focus();
         }
 
+        /// <summary>
+        /// Takes the text from textBoxSearch and searches for that text. Results are stored in a new tab.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            if(textBoxSearch.Text == "")
+            try
             {
-                MessageBox.Show("Please Enter in an item to search for.");
+                if (textBoxSearch.Text == "")
+                {
+                    MessageBox.Show("Please Enter in an item to search for.");
+                }
+                else
+                {
+                    // Performs a search, and gets the search results
+                    Search results = searchTester.performSearch(textBoxSearch.Text);
+
+                    // Creates a new tab.
+                    ClosableTap searchTabItem = new ClosableTap();
+                    searchTabItem.Title = textBoxSearch.Text;
+
+                    textBoxSearch.Clear();
+
+                    // ---- Might change to a Table View so we can get all the information of one result onto one row. ----
+                    ListView resultList = new ListView();
+
+                    // For each result, insert into the new tab.
+                    foreach (Result result in results.Items)
+                    {
+                        resultList.Items.Add(result.Title);
+                    }
+
+                    searchTabItem.Content = resultList;
+
+                    // Add the tab to the Tab Control and select it.
+                    tabControl.Items.Add(searchTabItem);
+                    tabControl.SelectedItem = (TabItem) searchTabItem;
+                }
             }
-            else
+            catch (NullReferenceException ex)
             {
-                searchTester.performSearch(textBoxSearch.Text);
+                MessageBox.Show("No Items were returned from the search.");
             }
         }
     }
