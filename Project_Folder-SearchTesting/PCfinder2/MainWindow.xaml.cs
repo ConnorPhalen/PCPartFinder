@@ -67,7 +67,7 @@ namespace PCfinder2
 
                     // Creates a new tab.
                     ClosableTap searchTabItem = new ClosableTap();
-                    searchTabItem.Title = textBoxSearch.Text;
+                    searchTabItem.Title       = textBoxSearch.Text;
 
                     textBoxSearch.Clear();
 
