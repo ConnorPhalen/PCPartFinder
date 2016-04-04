@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Navigation;
+using System.Threading;
 
 namespace PCfinder2
 {
@@ -53,129 +54,33 @@ namespace PCfinder2
         }
 
         /// <summary>
-        /// Takes the text from textBoxSearch and searches for that text. Results are formatted and stored in a new tab.
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        private delegate void searchDelegate(string query);
+
+        /// <summary>
+        /// Starts the Search process in a new Thread. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                buttonSearch.IsEnabled = false;
+            // Create a new searchDelegate nd give it a method to use
+            searchDelegate searchStarter = new searchDelegate(startSearch);
+            sendQuery(searchStarter);
+        }
 
-                if (textBoxSearch.Text == "")
-                {
-                    MessageBox.Show("Please Enter in an item to search for.");
-                }
-                else
-                {
-                    // Performs a search, and gets the search results
-                    Search results = searchTester.performSearch(textBoxSearch.Text);
+        /// <summary>
+        /// Method to initaite the searchDelegate method execution.
+        /// </summary>
+        /// <param name="searchStarter"></param>
+        private void sendQuery(searchDelegate searchStarter)
+        {
+            // Starts the search delagate function.
+            searchStarter(textBoxSearch.Text);
 
-                    // Creates a new tab.
-                    ClosableTap searchTabItem = new ClosableTap();
-                    searchTabItem.Title       = textBoxSearch.Text;
-                    GroupBox resultBox        = new GroupBox();
-                    textBoxSearch.Clear();
-                    
-                    // Creates a series of UIElements to store and display the results.
-                    WrapPanel resultList   = new WrapPanel();
-                    ScrollViewer resultHolder = new ScrollViewer();
-                    string       resultOutput = "";
-                    BitmapImage  resultImage;
-                    RichTextBox  resultDetails;
-                    Hyperlink    resultLink;
-
-                    // For each result, insert into the new tab. !!!! Change later to have link as hyper text !!!!
-                    foreach (Result result in results.Items)
-                    {
-                        resultBox     = new GroupBox();
-                        resultImage   = new BitmapImage();
-                        resultDetails = new RichTextBox();
-                        resultLink    = new Hyperlink();
-
-                        // If it contains a price, print it off in a special way...
-                        if (result.Pagemap.ContainsKey("offer"))
-                        {
-                            // If it has an actual price...
-                            if(result.Pagemap["offer"][0].ContainsKey("price"))
-                            {
-                                resultOutput = (result.Title + "\n" + "Price: " + result.Pagemap["offer"][0]["price"].ToString());
-
-                                // If it has a specific currency...
-                                if (result.Pagemap["offer"][0].ContainsKey("pricecurrency"))
-                                {
-                                    resultOutput += (" " + result.Pagemap["offer"][0]["pricecurrency"].ToString() + "\n");
-                                }
-                                else
-                                {
-                                    resultOutput += "\n";
-                                }
-                            }
-                        }
-                        else // else, print it off normally.
-                        {
-                            resultOutput = result.Title + "\n";
-                        }
-                        
-                        // if the result has an image...
-                        if (result.Pagemap.ContainsKey("cse_image"))
-                        {
-                            resultImage.UriSource = new Uri("\n" + (string)result.Pagemap["cse_image"][0]["src"]);
-                        }
-
-                        // Creates a clickable link to the original webpage.
-                        resultLink.Inlines.Add(result.Link);
-                        resultLink.NavigateUri = new Uri(result.Link);
-                        resultLink.IsEnabled   = true;
-
-                        // Set click, enter, and leave Event handlers for this hyperlink
-                        resultLink.Click           += new RoutedEventHandler(hyperlink_Enter);
-                        resultLink.MouseEnter      += new MouseEventHandler(hyperlink_Leave);
-                        resultLink.RequestNavigate += new RequestNavigateEventHandler(Hyperlink_RequestNavigate);
-
-                        // Adds the primary text content from the result to a RichTextBox
-                        Paragraph resultBlock = new Paragraph();
-
-                        resultBlock.Inlines.Add(resultOutput);
-                        resultBlock.Inlines.Add(resultLink.NavigateUri.AbsoluteUri + "\n");
-
-                        /* Do not directly use, control is deleted.
-                        richTextBoxTest.Document.Blocks.Add(new Paragraph(new Run(resultLink.NavigateUri.AbsoluteUri)));
-                        richTextBoxTest.IsDocumentEnabled = true;
-                        */
-
-                        resultDetails.IsDocumentEnabled = true;
-                        resultDetails.IsEnabled         = true;
-                        resultDetails.IsReadOnly        = true;
-                        resultDetails.Document.Blocks.Add(resultBlock);
-
-                        // Adds all of the items above into a GroupBox control
-                        resultBox.Content   = resultDetails;
-                        resultBox.IsEnabled = true;
-
-                        // Add the GroupBox to the list.
-                        resultList.Children.Add(resultBox);
-                    }
-                    // Places the resultList in a Scrollable area, and then into the actual tab.
-                    resultHolder.Content   = resultList;
-                    resultHolder.IsEnabled = true;
-
-                    searchTabItem.Content   = resultHolder;
-                    searchTabItem.IsEnabled = true;
-
-                    // Add the tab to the Tab Control and select it.
-                    tabControl.Items.Add(searchTabItem);
-                    tabControl.SelectedItem = (TabItem) searchTabItem;
-                    tabControl.IsEnabled    = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
-
-                    buttonSearch.IsEnabled  = true;
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show("No Items were returned from the search.");
-            }
+            textBoxSearch.Clear();
         }
 
         /// <summary>
@@ -204,7 +109,7 @@ namespace PCfinder2
             }
             catch (InvalidCastException ex)
             {
-                MessageBox.Show("That is not a valid Hyperlink\n Message: " + ex.ToString());
+                MessageBox.Show("That is not a valid Hyperlink.\n Error Message: " + ex.ToString());
             }
         }
 
@@ -225,6 +130,133 @@ namespace PCfinder2
             catch (InvalidCastException ex)
             {
                 MessageBox.Show("That is not a valid Hyperlink\n Message: " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Takes the text from textBoxSearch and searches for that text. Results are formatted and stored in a new tab.
+        /// </summary>
+        private void startSearch(string query)
+        {
+            try
+            {
+                buttonSearch.IsEnabled = false;
+
+                if (query == "")
+                {
+                    MessageBox.Show("Please Enter in an item to search for.");
+                }
+                else
+                {
+                    // Performs a search, and gets the search results
+                    Search results = searchTester.performSearch(query);
+
+                    // Creates a new tab.
+                    ClosableTap searchTabItem = new ClosableTap();
+                    searchTabItem.Title = query;
+
+                    // Creates a series of UIElements to store and display the results.
+                    GroupBox resultBox        = new GroupBox();
+                    WrapPanel resultList      = new WrapPanel();
+                    ScrollViewer resultHolder = new ScrollViewer();
+                    string resultOutput       = "";
+                    BitmapImage resultImage;
+                    RichTextBox resultDetails;
+                    Hyperlink resultLink;
+                    Grid resultBoxGrid;
+
+                    // For each result, insert into the new tab. !!!! Change later to have link as hyper text !!!!
+                    foreach (Result result in results.Items)
+                    {
+                        resultBox      = new GroupBox();
+                        resultImage    = new BitmapImage();
+                        resultDetails  = new RichTextBox();
+                        resultLink     = new Hyperlink();
+                        resultBoxGrid  = new Grid();
+
+                        // If it contains a price, print it off in a special way...
+                        if (result.Pagemap.ContainsKey("offer"))
+                        {
+                            // If it has an actual price...
+                            if (result.Pagemap["offer"][0].ContainsKey("price"))
+                            {
+                                resultOutput = (result.Title + "\n" + "Price: " + result.Pagemap["offer"][0]["price"].ToString());
+
+                                // If it has a specific currency...
+                                if (result.Pagemap["offer"][0].ContainsKey("pricecurrency"))
+                                {
+                                    resultOutput += (" " + result.Pagemap["offer"][0]["pricecurrency"].ToString() + "\n");
+                                }
+                                else
+                                {
+                                    resultOutput += "\n";
+                                }
+                            }
+                        }
+                        else // else, print it off normally.
+                        {
+                            resultOutput = result.Title + "\n";
+                        }
+
+                        // if the result has an image, add it to the Groupbox.
+                        if (result.Pagemap.ContainsKey("cse_image"))
+                        {
+                            resultImage.UriSource = new Uri("\n" + (string)result.Pagemap["cse_image"][0]["src"]);
+
+                            Image productImage = new Image(); // Figure this out, or delete it
+                            productImage.Source = resultImage;
+                            resultBoxGrid.Children.Add(productImage);
+                        }
+
+                        // Creates a clickable link to the original webpage.
+                        resultLink.Inlines.Add(result.Link);
+                        resultLink.NavigateUri = new Uri(result.Link);
+                        resultLink.IsEnabled = true;
+
+                        // Set click, enter, and leave Event handlers for this hyperlink
+                        resultLink.Click += new RoutedEventHandler(hyperlink_Enter);
+                        resultLink.MouseEnter += new MouseEventHandler(hyperlink_Leave);
+                        resultLink.RequestNavigate += new RequestNavigateEventHandler(Hyperlink_RequestNavigate);
+
+                        // Adds the primary text content from the result to a RichTextBox
+                        Paragraph resultBlock = new Paragraph();
+
+                        resultBlock.Inlines.Add(resultOutput);
+                        resultBlock.Inlines.Add(resultLink.NavigateUri.AbsoluteUri + "\n");
+
+                        resultDetails.IsDocumentEnabled = true;
+                        resultDetails.IsEnabled = true;
+                        resultDetails.IsReadOnly = true;
+                        resultDetails.Document.Blocks.Add(resultBlock);
+
+                        resultBoxGrid.Children.Add(resultDetails);
+
+                        // Adds all of the items above into a GroupBox control
+                        //resultBox.Content   = resultDetails;
+                        resultBox.Content = resultBoxGrid;
+                        resultBox.IsEnabled = true;
+
+                        // Add the GroupBox to the list.
+                        resultList.Children.Add(resultBox);
+                    }
+                    // Places the resultList in a Scrollable area, and then into the actual tab.
+                    resultHolder.Content = resultList;
+                    resultHolder.IsEnabled = true;
+
+                    searchTabItem.Content = resultHolder;
+                    searchTabItem.IsEnabled = true;
+
+                    // Add the tab to the Tab Control and select it.
+                    tabControl.Items.Add(searchTabItem);
+                    tabControl.SelectedItem = (TabItem)searchTabItem;
+                    tabControl.IsEnabled = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
+
+                    buttonSearch.IsEnabled = true;
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("No Items were returned from the search.\n Error Message: " + ex.ToString());
             }
         }
     }
