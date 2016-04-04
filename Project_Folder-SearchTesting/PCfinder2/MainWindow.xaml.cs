@@ -72,15 +72,14 @@ namespace PCfinder2
                     // Performs a search, and gets the search results
                     Search results = searchTester.performSearch(textBoxSearch.Text);
 
-                    textBoxSearch.Clear();
-
                     // Creates a new tab.
                     ClosableTap searchTabItem = new ClosableTap();
                     searchTabItem.Title       = textBoxSearch.Text;
                     GroupBox resultBox        = new GroupBox();
-
+                    textBoxSearch.Clear();
+                    
                     // Creates a series of UIElements to store and display the results.
-                    WrapPanel    resultList   = new WrapPanel();
+                    WrapPanel resultList   = new WrapPanel();
                     ScrollViewer resultHolder = new ScrollViewer();
                     string       resultOutput = "";
                     BitmapImage  resultImage;
@@ -108,6 +107,10 @@ namespace PCfinder2
                                 {
                                     resultOutput += (" " + result.Pagemap["offer"][0]["pricecurrency"].ToString() + "\n");
                                 }
+                                else
+                                {
+                                    resultOutput += "\n";
+                                }
                             }
                         }
                         else // else, print it off normally.
@@ -118,7 +121,7 @@ namespace PCfinder2
                         // if the result has an image...
                         if (result.Pagemap.ContainsKey("cse_image"))
                         {
-                            resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"]);
+                            resultImage.UriSource = new Uri("\n" + (string)result.Pagemap["cse_image"][0]["src"]);
                         }
 
                         // Creates a clickable link to the original webpage.
@@ -129,32 +132,44 @@ namespace PCfinder2
                         // Set click, enter, and leave Event handlers for this hyperlink
                         resultLink.Click           += new RoutedEventHandler(hyperlink_Enter);
                         resultLink.MouseEnter      += new MouseEventHandler(hyperlink_Leave);
-                        resultLink.RequestNavigate += Hyperlink_RequestNavigate;
+                        resultLink.RequestNavigate += new RequestNavigateEventHandler(Hyperlink_RequestNavigate);
 
                         // Adds the primary text content from the result to a RichTextBox
                         Paragraph resultBlock = new Paragraph();
 
                         resultBlock.Inlines.Add(resultOutput);
-                        resultBlock.Inlines.Add(resultLink.NavigateUri.ToString() + "\n");
+                        resultBlock.Inlines.Add(resultLink.NavigateUri.AbsoluteUri + "\n");
 
+                        /* Do not directly use, control is deleted.
+                        richTextBoxTest.Document.Blocks.Add(new Paragraph(new Run(resultLink.NavigateUri.AbsoluteUri)));
+                        richTextBoxTest.IsDocumentEnabled = true;
+                        */
+
+                        resultDetails.IsDocumentEnabled = true;
+                        resultDetails.IsEnabled         = true;
+                        resultDetails.IsReadOnly        = true;
                         resultDetails.Document.Blocks.Add(resultBlock);
-                        resultDetails.IsReadOnly = true;
 
                         // Adds all of the items above into a GroupBox control
-                        resultBox.Content = resultDetails;
+                        resultBox.Content   = resultDetails;
+                        resultBox.IsEnabled = true;
 
                         // Add the GroupBox to the list.
                         resultList.Children.Add(resultBox);
                     }
                     // Places the resultList in a Scrollable area, and then into the actual tab.
-                    resultHolder.Content  = resultList;
-                    searchTabItem.Content = resultHolder;
+                    resultHolder.Content   = resultList;
+                    resultHolder.IsEnabled = true;
+
+                    searchTabItem.Content   = resultHolder;
+                    searchTabItem.IsEnabled = true;
 
                     // Add the tab to the Tab Control and select it.
                     tabControl.Items.Add(searchTabItem);
                     tabControl.SelectedItem = (TabItem) searchTabItem;
+                    tabControl.IsEnabled    = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
 
-                    buttonSearch.IsEnabled = true;
+                    buttonSearch.IsEnabled  = true;
                 }
             }
             catch (NullReferenceException ex)
