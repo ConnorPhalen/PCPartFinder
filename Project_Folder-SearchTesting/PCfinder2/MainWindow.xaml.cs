@@ -74,20 +74,34 @@ namespace PCfinder2
 
                     // ---- Might change to a Table View so we can get all the information of one result onto one row. ----
                     ListView resultList = new ListView();
+                    string resultOutput;
 
-                    // For each result, insert into the new tab.
+                    // For each result, insert into the new tab. !!!! Change later to have link as hyper text !!!!
                     foreach (Result result in results.Items)
                     {
-                        // If it contains a price, print it off in a special way..
-                        if(result.Pagemap.ContainsKey("hproduct"))
+                        // If it contains a price, print it off in a special way...
+                        if(result.Pagemap.ContainsKey("offer"))
                         {
-                            resultList.Items.Add(result.Title + "\n" + result.Link + "\n"
-                                                 + result.Pagemap["hproduct"].ToString() + "\n"); // !!!! FIX !!!!
+                            resultOutput = (result.Title + "\n" + result.Link + "\n"
+                                            + "Price: " + result.Pagemap["offer"][0]["price"].ToString() + " ");
+
+                            // If it has a specific currency...
+                            if(result.Pagemap["offer"][0].ContainsKey("pricecurrency"))
+                            {
+                                resultOutput += (result.Pagemap["offer"][0]["pricecurrency"].ToString() + "\n");
+                            }
+                            else // else print off a new line
+                            {
+                                resultOutput += "\n";
+                            }
                         }
                         else // else, print it off normally.
                         {
-                            //resultList.Items.Add(result.Title + "\n" + result.Link + "\n");
+                            resultOutput = result.Title + "\n" + result.Link + "\n";
                         }
+
+                        // Add the string to the list.
+                        resultList.Items.Add(resultOutput);
                     }
 
                     searchTabItem.Content = resultList;
