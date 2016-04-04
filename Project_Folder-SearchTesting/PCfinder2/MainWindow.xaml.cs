@@ -8,7 +8,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Navigation;
-using System.Threading;
 
 namespace PCfinder2
 {
@@ -156,14 +155,14 @@ namespace PCfinder2
                     searchTabItem.Title = query;
 
                     // Creates a series of UIElements to store and display the results.
-                    GroupBox resultBox        = new GroupBox();
-                    WrapPanel resultList      = new WrapPanel();
+                    GroupBox     resultBox    = new GroupBox();
+                    WrapPanel    resultList   = new WrapPanel();
                     ScrollViewer resultHolder = new ScrollViewer();
-                    string resultOutput       = "";
-                    BitmapImage resultImage;
-                    RichTextBox resultDetails;
-                    Hyperlink resultLink;
-                    Grid resultBoxGrid;
+                    string       resultOutput = "";
+                    BitmapImage  resultImage;
+                    RichTextBox  resultDetails;
+                    Hyperlink    resultLink;
+                    Grid         resultBoxGrid;
 
                     // For each result, insert into the new tab. !!!! Change later to have link as hyper text !!!!
                     foreach (Result result in results.Items)
@@ -174,7 +173,7 @@ namespace PCfinder2
                         resultLink     = new Hyperlink();
                         resultBoxGrid  = new Grid();
 
-                        // If it contains a price, print it off in a special way...
+                        // If it contains price details, print it off in a special way...
                         if (result.Pagemap.ContainsKey("offer"))
                         {
                             // If it has an actual price...
@@ -203,19 +202,19 @@ namespace PCfinder2
                         {
                             resultImage.UriSource = new Uri("\n" + (string)result.Pagemap["cse_image"][0]["src"]);
 
-                            Image productImage = new Image(); // Figure this out, or delete it
-                            productImage.Source = resultImage;
+                            Image productImage    = new Image(); // Figure this out, or delete it
+                            productImage.Source   = resultImage;
                             resultBoxGrid.Children.Add(productImage);
                         }
 
                         // Creates a clickable link to the original webpage.
                         resultLink.Inlines.Add(result.Link);
                         resultLink.NavigateUri = new Uri(result.Link);
-                        resultLink.IsEnabled = true;
+                        resultLink.IsEnabled   = true;
 
                         // Set click, enter, and leave Event handlers for this hyperlink
-                        resultLink.Click += new RoutedEventHandler(hyperlink_Enter);
-                        resultLink.MouseEnter += new MouseEventHandler(hyperlink_Leave);
+                        resultLink.Click           += new RoutedEventHandler(hyperlink_Enter);
+                        resultLink.MouseEnter      += new MouseEventHandler(hyperlink_Leave);
                         resultLink.RequestNavigate += new RequestNavigateEventHandler(Hyperlink_RequestNavigate);
 
                         // Adds the primary text content from the result to a RichTextBox
@@ -225,33 +224,33 @@ namespace PCfinder2
                         resultBlock.Inlines.Add(resultLink.NavigateUri.AbsoluteUri + "\n");
 
                         resultDetails.IsDocumentEnabled = true;
-                        resultDetails.IsEnabled = true;
-                        resultDetails.IsReadOnly = true;
+                        resultDetails.IsEnabled         = true;
+                        resultDetails.IsReadOnly        = true;
                         resultDetails.Document.Blocks.Add(resultBlock);
 
                         resultBoxGrid.Children.Add(resultDetails);
 
                         // Adds all of the items above into a GroupBox control
                         //resultBox.Content   = resultDetails;
-                        resultBox.Content = resultBoxGrid;
+                        resultBox.Content   = resultBoxGrid;
                         resultBox.IsEnabled = true;
 
                         // Add the GroupBox to the list.
                         resultList.Children.Add(resultBox);
                     }
                     // Places the resultList in a Scrollable area, and then into the actual tab.
-                    resultHolder.Content = resultList;
+                    resultHolder.Content   = resultList;
                     resultHolder.IsEnabled = true;
 
-                    searchTabItem.Content = resultHolder;
+                    searchTabItem.Content   = resultHolder;
                     searchTabItem.IsEnabled = true;
 
                     // Add the tab to the Tab Control and select it.
                     tabControl.Items.Add(searchTabItem);
                     tabControl.SelectedItem = (TabItem)searchTabItem;
-                    tabControl.IsEnabled = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
+                    tabControl.IsEnabled    = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
 
-                    buttonSearch.IsEnabled = true;
+                    buttonSearch.IsEnabled  = true;
                 }
             }
             catch (NullReferenceException ex)
