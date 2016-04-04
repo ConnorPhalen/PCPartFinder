@@ -3,6 +3,7 @@
 using Google.Apis.Customsearch.v1.Data;
 using System.Windows.Controls;
 using System;
+using System.Collections.Generic;
 
 namespace PCfinder2
 {
@@ -29,7 +30,7 @@ namespace PCfinder2
         private void button_Click(object sender, RoutedEventArgs e)
         {
             ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "Extended tabs";
+            theTabItem.Title = "Batman";
             tabControl.Items.Add(theTabItem);
             theTabItem.Focus();
         }
@@ -42,7 +43,7 @@ namespace PCfinder2
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "There are a few secrets";
+            theTabItem.Title = "Robin Hood and Applesauce";
             tabControl.Items.Add(theTabItem);
             theTabItem.Focus();
         }
@@ -77,7 +78,16 @@ namespace PCfinder2
                     // For each result, insert into the new tab.
                     foreach (Result result in results.Items)
                     {
-                        resultList.Items.Add(result.Title);
+                        // If it contains a price, print it off in a special way..
+                        if(result.Pagemap.ContainsKey("hproduct"))
+                        {
+                            resultList.Items.Add(result.Title + "\n" + result.Link + "\n"
+                                                 + result.Pagemap["hproduct"].ToString() + "\n"); // !!!! FIX !!!!
+                        }
+                        else // else, print it off normally.
+                        {
+                            //resultList.Items.Add(result.Title + "\n" + result.Link + "\n");
+                        }
                     }
 
                     searchTabItem.Content = resultList;
