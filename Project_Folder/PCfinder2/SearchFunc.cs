@@ -12,8 +12,8 @@ namespace PCfinder2
     /// @author Connor Phalen
     class SearchFunc
     {
-        private const string        apiKey         = "AIzaSyDyi3LPrzumi8MmH1zNYhzw1JFV39UHaPg";
-        private const string        searchEngineId = "011076560235305892319:jactn08pzeu";
+        private const string apiKey = "AIzaSyDyi3LPrzumi8MmH1zNYhzw1JFV39UHaPg";
+        private const string searchEngineId = "011076560235305892319:jactn08pzeu";
         private CustomsearchService customSearchService;
 
         /// <summary>
@@ -30,16 +30,16 @@ namespace PCfinder2
         /// <param name="query">
         /// The item you want to search for.
         /// </param>
-        public void performSearch(string query)
+        public Search performSearch(string query)
         {
             // Insert the query and request a List of results and set the engine ID for the search.s
             CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
-            listRequest.Cx                      = searchEngineId;
+            listRequest.Cx = searchEngineId;
 
             // Execute the search request.
             Search results = listRequest.Execute();
 
-            displaySearch(results);
+            return results;
         }
 
         /// <summary>
@@ -60,3 +60,4 @@ namespace PCfinder2
         }
     }
 }
+

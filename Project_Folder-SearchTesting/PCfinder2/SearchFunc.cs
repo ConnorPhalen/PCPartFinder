@@ -30,7 +30,7 @@ namespace PCfinder2
         /// <param name="query">
         /// The item you want to search for.
         /// </param>
-        public void performSearch(string query)
+        public Search performSearch(string query)
         {
             // Insert the query and request a List of results and set the engine ID for the search.s
             CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
@@ -39,7 +39,7 @@ namespace PCfinder2
             // Execute the search request.
             Search results = listRequest.Execute();
 
-            displaySearch(results);
+            return results;
         }
 
         /// <summary>
