@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using System.Windows;
 
 namespace PCfinder2
 {
@@ -7,7 +8,7 @@ namespace PCfinder2
     /// </summary>
     /// @author Chiseong Oh
     /// @ReferenceCode 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         SearchFunc searchTester; 
 
@@ -52,6 +53,23 @@ namespace PCfinder2
             {
                 searchTester.performSearch(textBoxSearch.Text);
             }
+        }
+        private MetroWindow accentThemeTestWindow;
+
+        private void ChangeAppStyleButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (accentThemeTestWindow != null)
+            {
+                accentThemeTestWindow.Activate();
+                return;
+            }
+
+            accentThemeTestWindow = new AccentStyleWindow();
+            accentThemeTestWindow.Owner = this;
+            accentThemeTestWindow.Closed += (o, args) => accentThemeTestWindow = null;
+            accentThemeTestWindow.Left = this.Left + this.ActualWidth / 2.0;
+            accentThemeTestWindow.Top = this.Top + this.ActualHeight / 2.0;
+            accentThemeTestWindow.Show();
         }
     }
 }
