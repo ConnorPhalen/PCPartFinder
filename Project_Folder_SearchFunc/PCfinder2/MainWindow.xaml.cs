@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using System.Diagnostics;
 
 namespace PCfinder2
 {
@@ -94,9 +95,16 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            // ---- Keep in case we want to use the default web browser ----
-            // Process.Start(e.Uri.ToString());
+            try
+            {
+                Process.Start(e.Uri.ToString());
+            }
+            catch(InvalidOperationException ex)
+            {
+                MessageBox.Show("Failed to open Web Page. Hyperlink is in bad state. Message: " + ex.ToString());
+            }
 
+            /*
             try
             {
                 Hyperlink source = (Hyperlink)sender;
@@ -114,6 +122,7 @@ namespace PCfinder2
             {
                 MessageBox.Show("Unable to cast to a Hyperlink. Message: " + ex.ToString());
             }
+            */
         }
 
         /// <summary>

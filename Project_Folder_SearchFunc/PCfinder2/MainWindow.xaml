@@ -70,6 +70,7 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
             </StackPanel>
+            <Image x:Name="imageLogo" HorizontalAlignment="Left" Height="96" Margin="70,0,0,0" VerticalAlignment="Top" Width="77" Source="Resources/PcPartFinderLogo.png"/>
         </Grid>
     </Border>
     <Controls:MetroWindow.RightWindowCommands>
