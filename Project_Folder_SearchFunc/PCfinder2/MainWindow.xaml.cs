@@ -184,6 +184,13 @@ namespace PCfinder2
                     // Performs a search, and gets the search results
                     Search results = searchTester.performSearch(query);
 
+                    // If search result failed, leave function.
+                    if(results == null)
+                    {
+                        buttonSearch.IsEnabled = true;
+                        return;
+                    }
+
                     /* Creates a new tab.
                     ClosableTap searchTabItem = new ClosableTap();
                     searchTabItem.Title = query;

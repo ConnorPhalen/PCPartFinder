@@ -2,6 +2,7 @@
 using Google.Apis.Customsearch.v1.Data;
 using Google.Apis.Services;
 using System;
+using System.Windows;
 
 namespace PCfinder2
 {
@@ -32,14 +33,23 @@ namespace PCfinder2
         /// </param>
         public Search performSearch(string query)
         {
-            // Insert the query and request a List of results and set the engine ID for the search.s
-            CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
-            listRequest.Cx = searchEngineId;
+            try
+            {
+                // Insert the query and request a List of results and set the engine ID for the search.s
+                CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
+                listRequest.Cx = searchEngineId;
 
-            // Execute the search request.
-            Search results = listRequest.Execute();
+                // Execute the search request.
+                Search results = listRequest.Execute();
 
-            return results;
+                return results;
+
+            }
+            catch(System.Net.Http.HttpRequestException ex)
+            {
+                MessageBox.Show("Search could not be performed. Returning empty result.");
+                return null;
+            }
         }
 
         /// <summary>
