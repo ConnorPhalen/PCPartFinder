@@ -12,6 +12,7 @@
                       ResizeMode="CanResizeWithGrip">
 
     <Controls:MetroWindow.Resources>
+        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
@@ -19,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
-
+    
     <Controls:MetroWindow.TitleTemplate>
         <DataTemplate>
             <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={Converters:ToUpperConverter}}"
@@ -46,23 +47,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <GroupBox Grid.Row="0"
-                  Margin="5"
-                  Header="Change Window">
-            <UniformGrid Columns="5">
-                <Button Content="Dark"
-                        Click="ChangeWindowThemeButtonClick" />
-                <Button Content="Light"
-                        Click="ChangeWindowThemeButtonClick" />
-                <Button Content="Blue"
-                        Click="ChangeWindowAccentButtonClick" />
-                <Button Content="Red"
-                        Click="ChangeWindowAccentButtonClick" />
-                <Button Content="Green"
-                        Click="ChangeWindowAccentButtonClick" />
-            </UniformGrid>
-        </GroupBox>
 
         <GroupBox Grid.Row="1"
                   Margin="5"
@@ -99,16 +83,6 @@
                 </UniformGrid>
 
                 <UniformGrid Grid.Row="2" Margin="5" Columns="2">
-                    <ComboBox x:Name="AccentSelector"
-                              Margin="5"
-                              SelectionChanged="AccentSelectionChanged"
-                              ItemsSource="{x:Static metro:ThemeManager.Accents}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
 
                     <ComboBox x:Name="ColorsSelector"
                               Margin="5"

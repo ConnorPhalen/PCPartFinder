@@ -12,8 +12,8 @@ namespace PCfinder2
     /// @author Connor Phalen
     class SearchFunc
     {
-        private const string apiKey = "AIzaSyDyi3LPrzumi8MmH1zNYhzw1JFV39UHaPg";
-        private const string searchEngineId = "011076560235305892319:jactn08pzeu";
+        private const string apiKey = "AIzaSyC5DrrxCV2a647TvDad3bzRcbGqRUiEIPo";
+        private const string searchEngineId = "010138963599061418749:o9c8fsl6qwk";
         private CustomsearchService customSearchService;
 
         /// <summary>

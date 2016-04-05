@@ -32,10 +32,9 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "Extended tabs";
-            tabControl.Items.Add(theTabItem);
-            theTabItem.Focus();
+            this.WindowState = WindowState.Maximized;
+            this.UseNoneWindowStyle = true;
+            this.IgnoreTaskbarOnMaximize = true;
         }
         /// <summary>
         /// To add a new tab with longer name.
@@ -44,10 +43,10 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "There are a few secrets";
-            tabControl.Items.Add(theTabItem);
-            theTabItem.Focus();
+            this.WindowState = WindowState.Normal;
+            this.UseNoneWindowStyle = false;
+            this.ShowTitleBar = true; // <-- this must be set to true
+            this.IgnoreTaskbarOnMaximize = false;
         }
         private delegate void searchDelegate(string query);
         /// <summary>
@@ -261,6 +260,16 @@ namespace PCfinder2
             catch (NullReferenceException ex)
             {
                 MessageBox.Show("No Items were returned from the search.\n Error Message: " + ex.ToString());
+            }
+        }
+
+       
+
+        private void textBoxSearch_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Enter))
+            {
+                buttonSearch_Click(sender, e);
             }
         }
     }

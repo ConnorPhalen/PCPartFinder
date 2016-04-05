@@ -81,12 +81,6 @@ namespace PCfinder2
             }
         }
 
-        /// <summary>
-        /// Determining Ideal Text Color Based on Specified Background Color
-        /// http://www.codeproject.com/KB/GDI-plus/IdealTextColor.aspx
-        /// </summary>
-        /// <param name = "color">The bg.</param>
-        /// <returns></returns>
         private static Color IdealTextColor(Color color)
         {
             const int nThreshold = 105;
