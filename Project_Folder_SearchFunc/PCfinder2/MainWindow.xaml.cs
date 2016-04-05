@@ -61,6 +61,7 @@ namespace PCfinder2
             searchDelegate searchStarter = new searchDelegate(startSearch);
             sendQuery(searchStarter);
         }
+
         private MetroWindow accentThemeTestWindow;
 
         private void ChangeAppStyleButtonClick(object sender, RoutedEventArgs e)
@@ -71,14 +72,18 @@ namespace PCfinder2
                 return;
             }
 
-            accentThemeTestWindow = new AccentStyleWindow();
-            accentThemeTestWindow.Owner = this;
+            accentThemeTestWindow         = new AccentStyleWindow();
+            accentThemeTestWindow.Owner   = this;
             accentThemeTestWindow.Closed += (o, args) => accentThemeTestWindow = null;
-            accentThemeTestWindow.Left = this.Left + this.ActualWidth / 2.0;
-            accentThemeTestWindow.Top = this.Top + this.ActualHeight / 2.0;
+            accentThemeTestWindow.Left    = this.Left + this.ActualWidth / 2.0;
+            accentThemeTestWindow.Top     = this.Top + this.ActualHeight / 2.0;
             accentThemeTestWindow.Show();
         }
 
+        /// <summary>
+        /// Sends the Query to execute to the deleagte search method.
+        /// </summary>
+        /// <param name="searchStarter"></param>
         private void sendQuery(searchDelegate searchStarter)
         {
             // Starts the search delagate function.
@@ -88,13 +93,32 @@ namespace PCfinder2
         }
 
         /// <summary>
-        /// Sets the action for when the Hyperlink is clicked.
+        /// When a Hyperlink is clicked, it will open it's webpage in a new tabe.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.ToString());
+            // ---- Keep in case we want to use the default web browser ----
+            // Process.Start(e.Uri.ToString());
+
+            try
+            {
+                Hyperlink source         = (Hyperlink)sender;
+                CloseableTap browserTab  = new CloseableTap();
+
+                WebBrowser hyperlinkPage = new WebBrowser();
+                hyperlinkPage.Source     = new Uri(source.NavigateUri.ToString());
+
+                browserTab.Content       = hyperlinkPage;
+
+                tabControl.Items.Add(browserTab);
+                tabControl.SelectedItem = browserTab;
+            }
+            catch(InvalidCastException ex)
+            {
+                MessageBox.Show("Unable to cast to a Hyperlink. Message: " + ex.ToString());
+            }
         }
 
         /// <summary>
@@ -155,9 +179,10 @@ namespace PCfinder2
                     // Performs a search, and gets the search results
                     Search results = searchTester.performSearch(query);
 
-                    // Creates a new tab.
+                    /* Creates a new tab.
                     ClosableTap searchTabItem = new ClosableTap();
                     searchTabItem.Title = query;
+                    */
 
                     // Creates a series of UIElements to store and display the results.
                     GroupBox resultBox = new GroupBox();
@@ -213,7 +238,7 @@ namespace PCfinder2
                         }
 
                         // Creates a clickable link to the original webpage.
-                        resultLink.Inlines.Add(result.Link);
+                        resultLink.Inlines.Add("Visit Webpage...");
                         resultLink.NavigateUri = new Uri(result.Link);
                         resultLink.IsEnabled = true;
 
@@ -226,10 +251,9 @@ namespace PCfinder2
                         Paragraph resultBlock = new Paragraph();
 
                         resultBlock.Inlines.Add(resultOutput);
-                        resultBlock.Inlines.Add(resultLink.NavigateUri.AbsoluteUri + "\n");
+                        resultBlock.Inlines.Add(resultLink);
 
                         resultDetails.IsDocumentEnabled = true;
-                        resultDetails.IsEnabled = true;
                         resultDetails.IsReadOnly = true;
                         resultDetails.Document.Blocks.Add(resultBlock);
 
@@ -238,15 +262,14 @@ namespace PCfinder2
                         // Adds all of the items above into a GroupBox control
                         //resultBox.Content   = resultDetails;
                         resultBox.Content = resultBoxGrid;
-                        resultBox.IsEnabled = true;
 
                         // Add the GroupBox to the list.
                         resultList.Children.Add(resultBox);
                     }
                     // Places the resultList in a Scrollable area, and then into the actual tab.
                     resultHolder.Content = resultList;
-                    resultHolder.IsEnabled = true;
 
+                    /*
                     searchTabItem.Content = resultHolder;
                     searchTabItem.IsEnabled = true;
 
@@ -254,6 +277,11 @@ namespace PCfinder2
                     tabControl.Items.Add(searchTabItem);
                     tabControl.SelectedItem = (TabItem)searchTabItem;
                     tabControl.IsEnabled = true;                     // ---- Set all those things to be enabled. Could reset it later. ---- 
+                    */
+
+                    // Sets the Home Tab to be the resultList, and sets it as selected
+                    tabHome.Content = resultHolder;
+                    tabControl.SelectedItem = tabHome;
 
                     buttonSearch.IsEnabled = true;
                 }

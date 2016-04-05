@@ -2,6 +2,7 @@
 using Google.Apis.Customsearch.v1.Data;
 using Google.Apis.Services;
 using System;
+using System.Windows;
 
 namespace PCfinder2
 {
@@ -12,8 +13,13 @@ namespace PCfinder2
     /// @author Connor Phalen
     class SearchFunc
     {
-        private const string apiKey = "AIzaSyDyi3LPrzumi8MmH1zNYhzw1JFV39UHaPg";
-        private const string searchEngineId = "011076560235305892319:jactn08pzeu";
+        /* // Old Search Engine 
+            private const string apiKey = "AIzaSyDyi3LPrzumi8MmH1zNYhzw1JFV39UHaPg";
+            private const string searchEngineId = "011076560235305892319:jactn08pzeu";
+        */
+
+        private const string apiKey = "AIzaSyC5DrrxCV2a647TvDad3bzRcbGqRUiEIPo";
+        private const string searchEngineId = "010138963599061418749:o9c8fsl6qwk";
         private CustomsearchService customSearchService;
 
         /// <summary>
@@ -32,14 +38,22 @@ namespace PCfinder2
         /// </param>
         public Search performSearch(string query)
         {
-            // Insert the query and request a List of results and set the engine ID for the search.s
-            CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
-            listRequest.Cx = searchEngineId;
+            try
+            {
+                // Insert the query and request a List of results and set the engine ID for the search.s
+                CseResource.ListRequest listRequest = customSearchService.Cse.List(query);
+                listRequest.Cx = searchEngineId;
 
-            // Execute the search request.
-            Search results = listRequest.Execute();
+                // Execute the search request.
+                Search results = listRequest.Execute();
 
-            return results;
+                return results;
+            }
+            catch(System.Net.Http.HttpRequestException ex)
+            {
+                MessageBox.Show("Search Request Could not be completed.");
+                return new Search();
+            }
         }
 
         /// <summary>
