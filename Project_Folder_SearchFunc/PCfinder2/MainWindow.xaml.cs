@@ -234,7 +234,7 @@ namespace PCfinder2
                         // if the result has an image, add it to the Groupbox.
                         if (result.Pagemap.ContainsKey("cse_image"))
                         {
-                            resultImage.UriSource = new Uri("\n" + (string)result.Pagemap["cse_image"][0]["src"]);
+                            //resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"]);
 
                             Image productImage = new Image(); // Figure this out, or delete it
                             productImage.Source = resultImage;
