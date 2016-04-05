@@ -60,7 +60,7 @@ namespace PCfinder2
                 var tabItemSource = (TabItem)e.Data.GetData(typeof(TabItem));
                 if (tabItemTarget != tabItemSource)
                 {
-                    // the rest of your code
+                    // Do Nothing
                 }
             }
         }

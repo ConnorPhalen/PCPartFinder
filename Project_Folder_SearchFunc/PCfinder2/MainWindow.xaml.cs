@@ -177,6 +177,7 @@ namespace PCfinder2
                 if (query == "")
                 {
                     MessageBox.Show("Please Enter in an item to search for.");
+                    buttonSearch.IsEnabled = true;
                 }
                 else
                 {
@@ -234,9 +235,9 @@ namespace PCfinder2
                         // if the result has an image, add it to the Groupbox.
                         if (result.Pagemap.ContainsKey("cse_image"))
                         {
-                            //resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"]);
+                            resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"]); // !!!! Needs to be fixed !!!!
 
-                            Image productImage = new Image(); // Figure this out, or delete it
+                            Image productImage = new Image(); // !!!! Needs to be fixed !!!!
                             productImage.Source = resultImage;
                             resultBoxGrid.Children.Add(productImage);
                         }

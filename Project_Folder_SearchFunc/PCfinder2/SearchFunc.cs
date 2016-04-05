@@ -50,8 +50,6 @@ namespace PCfinder2
         /// </param>
         private void displaySearch(Search results)
         {
-            /* ---- Need to display item price and/or image in tab ---- */
-
             // Foreach search result, print off the title and website link.
             foreach (Result result in results.Items)
             {
