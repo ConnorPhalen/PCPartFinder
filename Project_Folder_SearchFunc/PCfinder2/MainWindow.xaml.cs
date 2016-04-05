@@ -6,15 +6,14 @@ using System;
 using System.Windows.Media.Imaging;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Diagnostics;
 using System.Windows.Navigation;
+
 namespace PCfinder2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
-    /// @author Chiseong Oh
-    /// @ReferenceCode 
+    /// @author Chiseong Oh and Connor Phalen
     public partial class MainWindow : MetroWindow
     {
         SearchFunc searchTester; 
@@ -32,10 +31,9 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "Extended tabs";
-            tabControl.Items.Add(theTabItem);
-            theTabItem.Focus();
+            this.WindowState = WindowState.Maximized;
+            this.UseNoneWindowStyle = true;
+            this.IgnoreTaskbarOnMaximize = true;
         }
         /// <summary>
         /// To add a new tab with longer name.
@@ -44,12 +42,14 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            ClosableTap theTabItem = new ClosableTap();
-            theTabItem.Title = "There are a few secrets";
-            tabControl.Items.Add(theTabItem);
-            theTabItem.Focus();
+            this.WindowState = WindowState.Normal;
+            this.UseNoneWindowStyle = false;
+            this.ShowTitleBar = true; // <-- this must be set to true
+            this.IgnoreTaskbarOnMaximize = false;
         }
+
         private delegate void searchDelegate(string query);
+
         /// <summary>
         /// Starts the Search process in a new Thread. 
         /// </summary>
@@ -61,7 +61,6 @@ namespace PCfinder2
             searchDelegate searchStarter = new searchDelegate(startSearch);
             sendQuery(searchStarter);
         }
-
         private MetroWindow accentThemeTestWindow;
 
         private void ChangeAppStyleButtonClick(object sender, RoutedEventArgs e)
@@ -72,18 +71,14 @@ namespace PCfinder2
                 return;
             }
 
-            accentThemeTestWindow         = new AccentStyleWindow();
-            accentThemeTestWindow.Owner   = this;
+            accentThemeTestWindow = new AccentStyleWindow();
+            accentThemeTestWindow.Owner = this;
             accentThemeTestWindow.Closed += (o, args) => accentThemeTestWindow = null;
-            accentThemeTestWindow.Left    = this.Left + this.ActualWidth / 2.0;
-            accentThemeTestWindow.Top     = this.Top + this.ActualHeight / 2.0;
+            accentThemeTestWindow.Left = this.Left + this.ActualWidth / 2.0;
+            accentThemeTestWindow.Top = this.Top + this.ActualHeight / 2.0;
             accentThemeTestWindow.Show();
         }
 
-        /// <summary>
-        /// Sends the Query to execute to the deleagte search method.
-        /// </summary>
-        /// <param name="searchStarter"></param>
         private void sendQuery(searchDelegate searchStarter)
         {
             // Starts the search delagate function.
@@ -104,18 +99,18 @@ namespace PCfinder2
 
             try
             {
-                Hyperlink source         = (Hyperlink)sender;
-                CloseableTap browserTab  = new CloseableTap();
+                Hyperlink source = (Hyperlink)sender;
+                CloseableTap browserTab = new CloseableTap();
 
                 WebBrowser hyperlinkPage = new WebBrowser();
-                hyperlinkPage.Source     = new Uri(source.NavigateUri.ToString());
+                hyperlinkPage.Source = new Uri(source.NavigateUri.ToString());
 
-                browserTab.Content       = hyperlinkPage;
+                browserTab.Content = hyperlinkPage;
 
                 tabControl.Items.Add(browserTab);
                 tabControl.SelectedItem = browserTab;
             }
-            catch(InvalidCastException ex)
+            catch (InvalidCastException ex)
             {
                 MessageBox.Show("Unable to cast to a Hyperlink. Message: " + ex.ToString());
             }
@@ -289,6 +284,14 @@ namespace PCfinder2
             catch (NullReferenceException ex)
             {
                 MessageBox.Show("No Items were returned from the search.\n Error Message: " + ex.ToString());
+            }
+        }
+
+        private void textBoxSearch_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Enter))
+            {
+                buttonSearch_Click(sender, e);
             }
         }
     }

@@ -21,7 +21,7 @@
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#374737" />
-            <Setter Property="Foreground" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="FontSize" Value="15" />
             <Setter Property="FontFamily" Value="./#Segoe UI" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -31,14 +31,14 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border CornerRadius="4" Background="{TemplateBinding Background}">
                             <Grid>
-                                <Path x:Name="PathIcon" Width="15" Height="25" Stretch="Fill" Fill="YellowGreen" HorizontalAlignment="Left" Margin="3,0,0,0" Data="M 50,50 l 15,0 l 5,-15 l5,15 l 15,0 l -10,10 l 4,15l -15,-9 l -15,9 l 7,-15 Z"/>
+                                <Path x:Name="PathIcon" Width="15" Height="25" Stretch="Fill" Fill="{DynamicResource AccentColorBrush}" HorizontalAlignment="Left" Margin="3,0,0,0" Data="M 50,50 l 15,0 l 5,-15 l5,15 l 15,0 l -10,10 l 4,15l -15,-9 l -15,9 l 7,-15 Z"/>
                                 <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                             </Grid>
                         </Border>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#E59400" />
+                                <Setter Property="Background" Value="#E594F0" />
                                 <Setter Property="Foreground" Value="White" />
                                 <Setter TargetName="PathIcon" Property="Fill" Value="Black" />
                             </Trigger>
@@ -58,17 +58,15 @@
             <TextBlock Name="DurationValue" Text="{Binding ElementName=MyWindow, Path=(local:CurrentDuration)}" FontSize="12" Foreground="Gainsboro" />
         </StackPanel>
     </Window.Resources>
-    <Border Background="{DynamicResource AccentColorBrush}" BorderBrush="Black" CornerRadius="10,10,10,10" Padding="6">
+    <Border Background="AliceBlue" BorderBrush="Black" CornerRadius="40,40,40,40" Padding="6">
         <Grid>
-            <Button x:Name="button" Content="" HorizontalAlignment="Left" Margin="23,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-            <Button x:Name="button1" Content="" HorizontalAlignment="Left" Margin="23,55,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
-            <TabControl x:Name="tabControl"  SelectedIndex="{Binding TabNumber}" HorizontalAlignment="Stretch" Height="auto" Margin="10,85,10,10" VerticalAlignment="Stretch" Width="auto">
-                <TabItem x:Name="tabHome" Header="Home"  Foreground="White"  HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch" Width="auto" BorderBrush="#CCFFFFFF">
+            <TabControl x:Name="tabControl" SelectedIndex="{Binding TabNumber}" HorizontalAlignment="Stretch" Height="auto" Margin="10,85,10,10" VerticalAlignment="Stretch" Width="auto">
+                <TabItem x:Name="tabHome" Header="Home" IsSelected="True" HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch" Width="auto" BorderBrush="#CCFFFFFF">
                     <Grid Background="White" Margin="0,-4,0,3.5"/>
                 </TabItem>
             </TabControl>
-            <TextBox x:Name="textBoxSearch" HorizontalAlignment="Left" Height="22" Margin="431,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
-            <Button x:Name="buttonSearch" Content="" HorizontalAlignment="Left" Margin="671,11,0,0" VerticalAlignment="Top" Width="75" Click="buttonSearch_Click"/>
+            <TextBox x:Name="textBoxSearch" HorizontalAlignment="Stretch" Height="22" Margin="211,33,187,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" KeyDown="textBoxSearch_KeyDown_1" />
+            <Button x:Name="buttonSearch" Content="Search" HorizontalAlignment="Right" Margin="0,34,78,0" VerticalAlignment="Top" Click="buttonSearch_Click" Width="104"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
             </StackPanel>
@@ -100,3 +98,4 @@
 
 
 </Controls:MetroWindow>
+
