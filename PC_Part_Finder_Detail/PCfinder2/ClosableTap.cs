@@ -118,14 +118,5 @@ namespace PCfinder2
         {
             ((CloseableTap)this.Header).close.Margin = new Thickness(((CloseableTap)this.Header).title.ActualWidth + 5, 3, 4, 0);
         }
-
-        /// <summary>
-        /// Takes in a Search Result and displays most of it in this tab.
-        /// </summary>
-        /// <param name="result"></param>
-        internal void displayResultDetail(Result result)
-        {
-            MessageBox.Show("Format result and display it in this new tab...");
-        }
     }
 }
