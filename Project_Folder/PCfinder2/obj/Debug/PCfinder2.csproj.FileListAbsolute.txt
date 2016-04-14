@@ -242,3 +242,6 @@ C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\Project_Folder_SearchFunc
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\Project_Folder_SearchFunc\PCfinder2\obj\Debug\PCfinder2.g.resources
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\Project_Folder_SearchFunc\PCfinder2\obj\Debug\PCfinder2.Properties.Resources.resources
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\Project_Folder_SearchFunc\PCfinder2\obj\Debug\PCfinder2.csproj.GenerateResource.Cache
+C:\Users\norne\Desktop\PCfinder3\Project_Folder\PCfinder2\bin\Debug\PCfinder2.exe.config
+C:\Users\norne\Desktop\PCfinder3\Project_Folder\PCfinder2\obj\Debug\PCfinder2.exe
+C:\Users\norne\Desktop\PCfinder3\Project_Folder\PCfinder2\obj\Debug\PCfinder2.pdb

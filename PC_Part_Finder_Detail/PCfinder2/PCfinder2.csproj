@@ -140,6 +140,9 @@
     </Compile>
     <Compile Include="System\Windows\Forms.cs" />
     <Compile Include="ThemeManagerHelper.cs" />
+    <Compile Include="Wishlist.xaml.cs">
+      <DependentUpon>Wishlist.xaml</DependentUpon>
+    </Compile>
     <Page Include="AccentStyleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +185,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Wishlist.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

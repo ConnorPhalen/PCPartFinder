@@ -96,7 +96,7 @@ namespace PCfinder2
                 return;
             }
 
-            //wishlist = new Wishlist();
+            wishlist = new Wishlist();
             wishlist.Owner = this;
             wishlist.Closed += (o, args) => wishlist = null;
             wishlist.Left = this.Left + this.ActualWidth / 3.0;

@@ -58,7 +58,7 @@
             <TextBlock Name="DurationValue" Text="{Binding ElementName=MyWindow, Path=(local:CurrentDuration)}" FontSize="12" Foreground="Gainsboro" />
         </StackPanel>
     </Window.Resources>
-    <Border Background="AliceBlue" BorderBrush="Black" CornerRadius="40,40,40,40" Padding="6">
+    <Border Background="{DynamicResource AccentColorBrush4}" BorderBrush="Black" CornerRadius="40,40,40,40" Padding="6">
         <Grid>
             <TabControl x:Name="tabControl" SelectedIndex="{Binding TabNumber}" Height="auto" Margin="10,85,10,10" VerticalAlignment="Stretch">
                 <TabItem x:Name="tabHome" Header="Home" IsSelected="True" HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch" Width="auto" BorderBrush="#CCFFFFFF">
@@ -83,8 +83,17 @@
                                Text="Change App Style..." />
                 </StackPanel>
             </Button>
+            <Button Click="OpenWishlist">
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="WishList" />
+                </StackPanel>
+            </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+
     <Controls:MetroWindow.TitleTemplate>
         <DataTemplate>
             <TextBlock Margin="8 -1 0 0"
