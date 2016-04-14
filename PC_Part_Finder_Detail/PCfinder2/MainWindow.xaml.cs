@@ -117,26 +117,6 @@ namespace PCfinder2
             {
                 MessageBox.Show("Failed to open Web Page. Hyperlink is in bad state. Message: " + ex.ToString());
             }
-
-            /*
-            try
-            {
-                Hyperlink source = (Hyperlink)sender;
-                CloseableTap browserTab = new CloseableTap();
-
-                WebBrowser hyperlinkPage = new WebBrowser();
-                hyperlinkPage.Source = new Uri(source.NavigateUri.ToString());
-
-                browserTab.Content = hyperlinkPage;
-
-                tabControl.Items.Add(browserTab);
-                tabControl.SelectedItem = browserTab;
-            }
-            catch (InvalidCastException ex)
-            {
-                MessageBox.Show("Unable to cast to a Hyperlink. Message: " + ex.ToString());
-            }
-            */
         }
 
         /// <summary>
@@ -270,9 +250,16 @@ namespace PCfinder2
                         // if the result has an image, add it to the Groupbox.
                         if (result.Pagemap.ContainsKey("cse_image"))
                         {
-                            resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"]); // !!!! Needs to be fixed !!!!
+                            // Initialize the Bitmap
+                            resultImage.BeginInit();
 
-                            Image productImage = new Image(); // !!!! Needs to be fixed !!!!
+                            // Set the Bitmap source
+                            resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"], UriKind.Absolute); // !!!! Needs to be fixed !!!!
+
+                            resultImage.EndInit();
+
+                            // Assign Bitmap to an image, and add it to the UI
+                            Image productImage = new Image();
                             productImage.Source = resultImage;
                             resultBoxGrid.Children.Add(productImage);
                             Grid.SetColumn(productImage, i++);
@@ -346,9 +333,15 @@ namespace PCfinder2
         {
             Button clickedButton = (Button) sender;
 
+            // Create a new tab to displaythe specific results
             CloseableTap detailTab = new CloseableTap();
+            Result result = (Result)clickedButton.Tag;
+            
+            // Display the search reults details on the new tab
+            detailTab.displayResultDetail(result);
 
-            detailTab.displayResultDetail( (Result) clickedButton.Tag);
+            // add the new tab to the tabControl
+            tabControl.Items.Add(detailTab);
         }
 
         /// <summary>
@@ -359,6 +352,7 @@ namespace PCfinder2
         private void AddToWishlist_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = (Button)sender;
+            Result result = (Result)clickedButton.Tag;
 
             MessageBox.Show("Add to Wishlist...");
         }
@@ -370,8 +364,10 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void textBoxSearch_KeyDown_1(object sender, KeyEventArgs e)
         {
+            // if key is down...
             if (Keyboard.IsKeyDown(Key.Enter))
             {
+                // ... start the result search
                 buttonSearch_Click(sender, e);
             }
         }
@@ -384,14 +380,18 @@ namespace PCfinder2
         /// <returns></returns>
         private Button createOpenDetailTabButton(double width, double height, Result searchResult)
         {
+            // Create new button and give it an onClick method
             Button openDetailTab = new Button();
             openDetailTab.Click += OpenDetailTab_Click;
 
+            // Assign a height and width
             openDetailTab.Width  = width;
             openDetailTab.Height = height;
 
+            // Place the search result as the tag for easy access (need to change later. This seems weird).
             openDetailTab.Tag = searchResult;
 
+            // Assign some text
             TextBlock buttonText = new TextBlock();
             buttonText.Text = "Open Details in new Tab";
 
@@ -408,14 +408,18 @@ namespace PCfinder2
         /// <returns></returns>
         private Button createAddToWishlistButton(double width, double height, Result searchResult)
         {
+            // Create new button and give it an onClick method
             Button addToWishlist = new Button();
             addToWishlist.Click += AddToWishlist_Click;
 
-            addToWishlist.Width  = width;
+            // Assign a height and width
+            addToWishlist.Width = width;
             addToWishlist.Height = height;
 
+            // Place the search result as the tag for easy access (need to change later. This seems weird).
             addToWishlist.Tag = searchResult;
 
+            // Assign some text
             TextBlock buttonText = new TextBlock();
             buttonText.Text      = "Add To Wishlist";
 

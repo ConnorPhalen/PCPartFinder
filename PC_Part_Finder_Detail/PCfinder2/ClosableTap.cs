@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Google.Apis.Customsearch.v1.Data;
 
 namespace PCfinder2
 {

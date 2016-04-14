@@ -1,0 +1,18 @@
+﻿<Page x:Class="PCfinder2.DisplayResultPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PCfinder2"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="DisplayResultPage">
+
+    <Grid>
+        <Image x:Name="imageResult" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="125" Margin="10,10,0,0"/>
+        <TextBox x:Name="textBoxMainDetails" HorizontalAlignment="Left" Height="125" Margin="140,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150"/>
+        <TextBox x:Name="textBoxFeatures" HorizontalAlignment="Left" Height="66" Margin="10,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="280"/>
+        <TextBox x:Name="textBoxSpecs" HorizontalAlignment="Left" Height="66" Margin="10,224,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="280"/>
+
+    </Grid>
+</Page>

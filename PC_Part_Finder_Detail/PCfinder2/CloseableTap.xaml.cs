@@ -21,7 +21,8 @@ namespace PCfinder2
         /// <param name="result"></param>
         internal void displayResultDetail(Result result)
         {
-            MessageBox.Show("Format result and display it in this new tab...");
+            // Creates a new result Page to display the result
+            this.Content = new DisplayResultPage(ref result);
         }
     }
 }

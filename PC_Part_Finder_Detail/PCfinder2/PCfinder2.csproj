@@ -105,6 +105,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -134,6 +135,9 @@
     <Compile Include="AccentStyleWindow.xaml.cs">
       <DependentUpon>AccentStyleWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DisplayResultPage.xaml.cs">
+      <DependentUpon>DisplayResultPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="System\Windows\Forms.cs" />
     <Compile Include="ThemeManagerHelper.cs" />
     <Page Include="AccentStyleWindow.xaml">
@@ -155,6 +159,10 @@
     <Page Include="CustomTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DisplayResultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

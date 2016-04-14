@@ -298,3 +298,5 @@ C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCf
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCfinder2\obj\Debug\PCfinder2.g.resources
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCfinder2\obj\Debug\PCfinder2.Properties.Resources.resources
 C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCfinder2\obj\Debug\PCfinder2.csproj.GenerateResource.Cache
+C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCfinder2\obj\Debug\DisplayResultPage.g.cs
+C:\Users\Connor Phalen\Desktop\Group7_COMP3951_Project\PC_Part_Finder_Detail\PCfinder2\obj\Debug\DisplayResultPage.baml
