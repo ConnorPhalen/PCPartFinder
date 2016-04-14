@@ -23,6 +23,8 @@ namespace PCfinder2
         {
             // Creates a new result Page to display the result
             this.Content = new DisplayResultPage(ref result);
+
+            MessageBox.Show("Display Result Details... (WIP)");
         }
     }
 }

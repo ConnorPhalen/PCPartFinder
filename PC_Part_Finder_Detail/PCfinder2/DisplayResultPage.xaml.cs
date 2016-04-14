@@ -14,6 +14,10 @@ namespace PCfinder2
     {
         Result result;
 
+        /// <summary>
+        /// Initialize the Page and assign the result so it can e accessed later.
+        /// </summary>
+        /// <param name="searchResult"></param>
         public DisplayResultPage(ref Result searchResult)
         {
             InitializeComponent();
@@ -22,7 +26,7 @@ namespace PCfinder2
         }
 
         /// <summary>
-        /// 
+        /// Load the data from the result into onto the page.
         /// </summary>
         private void loadResultData()
         {
@@ -43,8 +47,9 @@ namespace PCfinder2
                     imageResult.Source = resultImage;
                 }
 
+                // Sample text for the forms.
                 textBoxMainDetails.Text = "Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text";
-                textBoxSpecs.Text = "Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text";
+                textBoxSpecs.Text = "Sample Text Sample Text Sample Text Sample Text Sample Shanklin Sample Text";
                 textBoxFeatures.Text = "Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text";
 
             }

@@ -19,6 +19,9 @@ namespace PCfinder2
     {
         SearchFunc searchTester;
 
+        /// <summary>
+        /// Initializes the window.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -64,23 +67,27 @@ namespace PCfinder2
         }
 
         /// <summary>
-        /// 
+        /// Variables to be used in the UI colour changing methods.
         /// </summary>
         private MetroWindow accentThemeTestWindow;
         private MetroWindow wishlist;
+
         /// <summary>
-        /// 
+        /// Open the window that allows the user to change the appearence of the application.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChangeAppStyleButtonClick(object sender, RoutedEventArgs e)
         {
+            // if the MetroWindow variables are null...
             if (accentThemeTestWindow != null)
             {
+                // ...Activate them
                 accentThemeTestWindow.Activate();
                 return;
             }
 
+            // Sets up the parameters for this window
             accentThemeTestWindow = new AccentStyleWindow();
             accentThemeTestWindow.Owner = this;
             accentThemeTestWindow.Closed += (o, args) => accentThemeTestWindow = null;
@@ -88,14 +95,23 @@ namespace PCfinder2
             accentThemeTestWindow.Top = this.Top + this.ActualHeight / 3.0;
             accentThemeTestWindow.Show();
         }
+
+        /// <summary>
+        /// Opens the Wish List for the user to review their saved search results (WIP).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenWishlist(object sender, RoutedEventArgs e)
         {
+            // if Wish List MetroWindow variable in null...
             if (wishlist != null)
             {
+                // ...Activate them
                 wishlist.Activate();
                 return;
             }
 
+            // Set the parameters for this window
             wishlist = new Wishlist();
             wishlist.Owner = this;
             wishlist.Closed += (o, args) => wishlist = null;
@@ -105,7 +121,7 @@ namespace PCfinder2
         }
 
         /// <summary>
-        /// 
+        /// Sends the query to start the search.
         /// </summary>
         /// <param name="searchStarter"></param>
         private void sendQuery(searchDelegate searchStarter)
@@ -335,6 +351,10 @@ namespace PCfinder2
             {
                 MessageBox.Show("No Items were returned from the search.\n Error Message: " + ex.ToString());
             }
+            catch(BadImageFormatException ex)
+            {
+                MessageBox.Show("Result image could not be be loaded properly due to it being in an invalid format.");
+            }
         }
 
         /// <summary>
@@ -344,20 +364,25 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void OpenDetailTab_Click(object sender, RoutedEventArgs e)
         {
-            Button clickedButton = (Button)sender;
+            try
+            {
+                // Get the buttons result as it was stored in the tag
+                Button clickedButton = (Button)sender;
 
-            // Create a new tab to displaythe specific results
-            CloseableTap detailTab = new CloseableTap();
-            Result result = (Result)clickedButton.Tag;
+                // Create a new tab to display the specific results
+                CloseableTap detailTab = new CloseableTap();
+                Result result = (Result)clickedButton.Tag;
 
-            // Display the search reults details on the new tab
-            detailTab.displayResultDetail(result);
+                // Display the search reults details on the new tab
+                detailTab.displayResultDetail(result);
 
-            // add the new tab to the tabControl
-            tabControl.Items.Add(detailTab);
-
-            // How do we display the tab again????
-
+                // add the new tab to the tabControl
+                tabControl.Items.Add(detailTab);
+            }
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show("Could not cast this object to a button.");
+            }
         }
 
         /// <summary>
@@ -367,13 +392,20 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void AddToWishlist_Click(object sender, RoutedEventArgs e)
         {
-            Button clickedButton = (Button)sender;
+            try
+            {
+                // Get the buttons result as it was stored in the tag
+                Button clickedButton = (Button)sender;
+                Result result = (Result)clickedButton.Tag;
 
-            Result result = (Result)clickedButton.Tag;
+                MessageBox.Show("Add to Wishlist... (WIP)");
 
-
-            //Grid.GetColumn()
-            MessageBox.Show("");
+                // Add result to the Wish List
+            }
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show("Could not cast this object to a button.");
+            }
         }
 
         /// <summary>
