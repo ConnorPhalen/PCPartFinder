@@ -85,7 +85,7 @@
 
     <!-- DataGrid brushes -->
     <SolidColorBrush x:Key="MetroDataGrid.DisabledHighlightBrush" Color="{StaticResource Gray7}" options:Freeze="True" />
-    
+
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.PressedBrush.Win10" Color="#FF666666" options:Freeze="True" />
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OffBorderBrush.Win10" Color="#FF333333" options:Freeze="True" />
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OffMouseOverBorderBrush.Win10" Color="#FF000000" options:Freeze="True" />

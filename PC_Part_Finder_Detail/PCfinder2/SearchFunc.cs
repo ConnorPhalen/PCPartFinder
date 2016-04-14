@@ -45,7 +45,7 @@ namespace PCfinder2
                 return results;
 
             }
-            catch(System.Net.Http.HttpRequestException ex)
+            catch (System.Net.Http.HttpRequestException ex)
             {
                 MessageBox.Show("Search could not be performed. Returning empty result.");
                 return null;

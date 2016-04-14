@@ -84,7 +84,7 @@ namespace PCfinder2
             ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent("CustomAccent2"), theme.Item1);
         }
 
-        
+
 
         private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {

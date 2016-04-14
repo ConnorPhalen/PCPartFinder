@@ -8,7 +8,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Diagnostics;
-using System.Windows.Media;
 
 namespace PCfinder2
 {
@@ -18,7 +17,7 @@ namespace PCfinder2
     /// @author Chiseong Oh and Connor Phalen
     public partial class MainWindow : MetroWindow
     {
-        SearchFunc searchTester; 
+        SearchFunc searchTester;
 
         public MainWindow()
         {
@@ -68,7 +67,7 @@ namespace PCfinder2
         /// 
         /// </summary>
         private MetroWindow accentThemeTestWindow;
-
+        private MetroWindow wishlist;
         /// <summary>
         /// 
         /// </summary>
@@ -85,9 +84,24 @@ namespace PCfinder2
             accentThemeTestWindow = new AccentStyleWindow();
             accentThemeTestWindow.Owner = this;
             accentThemeTestWindow.Closed += (o, args) => accentThemeTestWindow = null;
-            accentThemeTestWindow.Left = this.Left + this.ActualWidth / 2.0;
-            accentThemeTestWindow.Top = this.Top + this.ActualHeight / 2.0;
+            accentThemeTestWindow.Left = this.Left + this.ActualWidth / 3.0;
+            accentThemeTestWindow.Top = this.Top + this.ActualHeight / 3.0;
             accentThemeTestWindow.Show();
+        }
+        private void OpenWishlist(object sender, RoutedEventArgs e)
+        {
+            if (wishlist != null)
+            {
+                wishlist.Activate();
+                return;
+            }
+
+            //wishlist = new Wishlist();
+            wishlist.Owner = this;
+            wishlist.Closed += (o, args) => wishlist = null;
+            wishlist.Left = this.Left + this.ActualWidth / 3.0;
+            wishlist.Top = this.Top + this.ActualHeight / 3.0;
+            wishlist.Show();
         }
 
         /// <summary>
@@ -113,7 +127,7 @@ namespace PCfinder2
             {
                 Process.Start(e.Uri.ToString());
             }
-            catch(InvalidOperationException ex)
+            catch (InvalidOperationException ex)
             {
                 MessageBox.Show("Failed to open Web Page. Hyperlink is in bad state. Message: " + ex.ToString());
             }
@@ -180,7 +194,7 @@ namespace PCfinder2
                     Search results = searchTester.performSearch(query);
 
                     // If search result failed, leave function.
-                    if(results == null)
+                    if (results == null)
                     {
                         buttonSearch.IsEnabled = true;
                         return;
@@ -199,7 +213,7 @@ namespace PCfinder2
                     // List all of the elements vetically
                     resultList.Orientation = Orientation.Vertical;
 
-                    if(results.Items.Count < 1)
+                    if (results.Items.Count < 1)
                     {
                         MessageBox.Show("No results were returned by the search.");
                         return;
@@ -214,9 +228,9 @@ namespace PCfinder2
                         resultLink = new Hyperlink();
                         resultBoxGrid = new Grid();
                         int i = 0;
-                        
+
                         // for each element, insert a column
-                        for(int k = 0; k < ELEMENTCOUNT; k++)
+                        for (int k = 0; k < ELEMENTCOUNT; k++)
                         {
                             resultBoxGrid.ColumnDefinitions.Add(new ColumnDefinition());
                         }
@@ -255,7 +269,6 @@ namespace PCfinder2
 
                             // Set the Bitmap source
                             resultImage.UriSource = new Uri((string)result.Pagemap["cse_image"][0]["src"], UriKind.Absolute); // !!!! Needs to be fixed !!!!
-
                             resultImage.EndInit();
 
                             // Assign Bitmap to an image, and add it to the UI
@@ -331,17 +344,20 @@ namespace PCfinder2
         /// <param name="e"></param>
         private void OpenDetailTab_Click(object sender, RoutedEventArgs e)
         {
-            Button clickedButton = (Button) sender;
+            Button clickedButton = (Button)sender;
 
             // Create a new tab to displaythe specific results
             CloseableTap detailTab = new CloseableTap();
             Result result = (Result)clickedButton.Tag;
-            
+
             // Display the search reults details on the new tab
             detailTab.displayResultDetail(result);
 
             // add the new tab to the tabControl
             tabControl.Items.Add(detailTab);
+
+            // How do we display the tab again????
+
         }
 
         /// <summary>
@@ -352,9 +368,12 @@ namespace PCfinder2
         private void AddToWishlist_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = (Button)sender;
+
             Result result = (Result)clickedButton.Tag;
 
-            MessageBox.Show("Add to Wishlist...");
+
+            //Grid.GetColumn()
+            MessageBox.Show("");
         }
 
         /// <summary>
@@ -385,7 +404,7 @@ namespace PCfinder2
             openDetailTab.Click += OpenDetailTab_Click;
 
             // Assign a height and width
-            openDetailTab.Width  = width;
+            openDetailTab.Width = width;
             openDetailTab.Height = height;
 
             // Place the search result as the tag for easy access (need to change later. This seems weird).
@@ -421,7 +440,7 @@ namespace PCfinder2
 
             // Assign some text
             TextBlock buttonText = new TextBlock();
-            buttonText.Text      = "Add To Wishlist";
+            buttonText.Text = "Add To Wishlist";
 
             addToWishlist.Content = buttonText;
 
