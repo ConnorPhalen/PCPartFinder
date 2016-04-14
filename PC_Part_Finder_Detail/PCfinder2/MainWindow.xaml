@@ -13,6 +13,8 @@
         TextOptions.TextFormattingMode="Display"
         WindowStartupLocation="CenterScreen"              
         mc:Ignorable="d"
+        MinWidth="400"
+        MinHeight="200"
         ShowTitleBar="True"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -71,6 +73,7 @@
 
             </StackPanel>
             <Image x:Name="imageLogo" Height="96" Margin="28,0,0,0" VerticalAlignment="Top" Source="Resources/PcPartFinderLogo.png" HorizontalAlignment="Left" Width="77"/>
+            <TextBlock x:Name="textBlock" Margin="110,10,0,0" TextWrapping="Wrap" Text="PC Part Finder" Cursor="None" FontFamily="Lucida Fax" TextDecorations="{x:Null}" FontSize="26.667" Height="101" VerticalAlignment="Top" HorizontalAlignment="Left" Width="96"/>
         </Grid>
     </Border>
     <Controls:MetroWindow.RightWindowCommands>
